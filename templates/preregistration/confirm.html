@@ -51,10 +51,6 @@
 </tr>
 {% include "preregistration/phone_numbers.html" %}
 <tr>
-    <td> What interests you? </td>
-    <td> {% checkgroup attendee.interests %} </td>
-</tr>
-<tr>
     <td></td>
     <td> <input type="submit" value="{% if attendee.placeholder %}Register{% else %}Update My Info{% endif %}" id="updateButton"/> </td>
 </tr>

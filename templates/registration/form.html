@@ -244,13 +244,6 @@
     </tr>
 {% endif %}
 <tr>
-    <td> Interested In: </td>
-    <td>
-        <nobr><input type="checkbox" onClick="$(':checkbox[name=interests]').attr('checked',this.checked)" /> All</nobr>
-        {% checkgroup attendee.interests %}
-    </td>
-</tr>
-<tr>
     <td> <nobr>Personal Phone Number:</nobr> </td>
     <td> <input type="text" name="cellphone" value="{{ attendee.cellphone }}" /> </td>
 </tr>
