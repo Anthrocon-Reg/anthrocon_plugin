@@ -98,13 +98,6 @@
     <td> <nobr>How did you</nobr> <nobr>find {{ EVENT_NAME }}?</nobr> </td>
     <td> <input type="text" name="found_how" value="{{ attendee.found_how }}" style="width:80%" /> </td>
 </tr>
-<tr>
-    <td> <nobr>What are you</nobr> <nobr>interested in</nobr> <nobr>at {{ EVENT_NAME }}?</nobr> </td>
-    <td>
-        <nobr><input type="checkbox" onClick="$(':checkbox[name=interests]').attr('checked',this.checked)" /> Everything</nobr>
-        {% checkgroup attendee.interests %}
-    </td>
-</tr>
 </table>
 <br/>
 <div style="margin-left:25%">
