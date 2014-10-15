@@ -1,0 +1,22 @@
+{% extends "base-admin.html" %}
+{% block title %}Recently Sent Automated Emails{% endblock %}
+{% block content %}
+
+{% pages page count %}
+
+<table class="list">
+<tr class="header">
+    <td>Sent</td>
+    <td>Subject</td>
+    <td>Recipient</td>
+</tr>
+{% for email in emails %}
+    <tr>
+        <td>{{ email.when }}</td>
+        <td>{{ email.subject }}</td>
+        <td><a href="sent?dest={{ email.dest }}">{{ email.dest }}</a></td>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock %}
