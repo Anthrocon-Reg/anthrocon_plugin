@@ -6,12 +6,12 @@ Congratulations! Your registration was successful, and your badge number is <str
 Your membership type is:
 {% if attendee.amount_extra %}
     {% if attendee.badge_type == ATTENDEE_BADGE %}
-        {{ attendee.amount_extra_label }}
+        Attending {{ attendee.amount_extra_label }}
     {% else %}
-        {{ attendee.badge_type }}/{{ attendee.amount_extra_label }}
+        {{ attendee.badge_type_label }} {{ attendee.amount_extra_label }}
     {% endif %}
 {% else %}
-    {{ attendee.badge_type }}
+    {{ attendee.badge_type_label }}
 {% endif %}
 
 <br/><br/>Your credit card was successfully charged for <strong>${{ attendee.amount_paid }}</strong>.
