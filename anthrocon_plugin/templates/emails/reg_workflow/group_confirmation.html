@@ -5,6 +5,12 @@
 Your {{ group.is_dealer|yesno:"Dealership,group" }} ({{ group.name }}) has been preregistered for
 {{ EVENT_NAME }} and your payment of ${{ group.amount_paid }} has been received.  
 
+{% if group.is_dealer %}
+    <br/><br/>Your group payment includes basic membership for all group members. In order to
+    {{ group.leader.amount_unpaid|yesno:"finish upgrading,upgrade" }} your membership, please visit
+    <a href="{{ URL_BASE }}/preregistration/confirm?id={{ group.leader.id }}">{{ URL_BASE }}/preregistration/confirm?id={{ group.leader.id }}</a>
+{% endif %}
+
 {% if group.unregistered_badges %}
     <br/> <br/>
     Some of your {{ group.is_dealer|yesno:"Dealer Assistant,group" }} badges are not yet assigned to a specific person.
@@ -18,8 +24,7 @@ Your {{ group.is_dealer|yesno:"Dealership,group" }} ({{ group.name }}) has been 
         You can add badges to your group using the above link, but you must add at least 5 badges at a time.
     {% else %}
         <br/><br/>
-        You can also add more Dealer Assistants to your Dealership with the above link, up to the limit of your table
-        size.
+        To add more badges to your table, please contact us at <a href="{{ CONTACT_URL }}">{{ CONTACT_URL }}</a>.
     {% endif %}
 {% endif %}
 
