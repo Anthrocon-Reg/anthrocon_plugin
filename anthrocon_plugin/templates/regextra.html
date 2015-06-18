@@ -1,0 +1,16 @@
+<script type="text/javascript">
+    $(function () {
+        $.field('amount_extra').parents('.form-group').hide();
+        $.field('can_spam').parents('.form-group').hide();
+        $.field('comments').parents('.form-group').hide();
+        $.field('interests').parents('.form-group').hide();
+        $.field('staffing').parents('.form-group').hide();
+
+        $("label[for='ec_phone']").text("Backup Phone Number");
+        $.field('ec_phone').attr("placeholder", "Backup Phone Number");
+        $.field('ec_name').insertBefore($.field('ec_phone'));
+
+    });
+</script>
+
+<input type="text" name="ec_name" value="{{ attendee.ec_name }}" class="form-control" placeholder="Backup Phone Name">
