@@ -3,14 +3,14 @@
             {% if c.SUPERSPONSOR in c.PREREG_DONATION_TIERS %}
                 BADGE_TYPES.options.splice(1, 0, {
                     title: 'Supersponsor',
-                    description: 'sdfdsf',
+                    description: 'The most generous option - get even more great perks!',
                     extra: {{ c.SUPERSPONSOR }}
                 });
             {% endif %}
             {% if c.SPONSOR in c.PREREG_DONATION_TIERS %}
                 BADGE_TYPES.options.splice(1, 0, {
                     title: 'Sponsor',
-                    description: 'dsfsf',
+                    description: 'Donate extra and get perks on top of an attending membership.',
                     extra: {{ c.SPONSOR }}
                 });
             {% endif %}
@@ -60,10 +60,3 @@
         </div>
     </div>
 </div>
-{% if c.PAGE_PATH != '/registration/form' %}
-    <div id="tax_exempt">
-        <div class="help-block col-sm-6 col-sm-offset-2">
-            Badge tier upgrades may be partially tax deductible. E-mail contact@magfest.org for details.
-        </div>
-    </div>
-{% endif %}
