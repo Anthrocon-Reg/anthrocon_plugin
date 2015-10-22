@@ -1,25 +1,21 @@
 <script type="text/javascript">
     if (window.BADGE_TYPES) {
-            {% if c.SUPERSPONSOR in c.PREREG_DONATION_TIERS %}
-                BADGE_TYPES.options.splice(1, 0, {
-                    title: 'Supersponsor',
-                    description: 'The most generous option - get even more great perks!',
-                    extra: {{ c.SUPERSPONSOR }}
-                });
-            {% endif %}
-            {% if c.SPONSOR in c.PREREG_DONATION_TIERS %}
-                BADGE_TYPES.options.splice(1, 0, {
-                    title: 'Sponsor',
-                    description: 'Donate extra and get perks on top of an attending membership.',
-                    extra: {{ c.SPONSOR }}
-                });
-            {% endif %}
+            BADGE_TYPES.options.push({
+                title: 'Sponsor',
+                description: 'Donate extra and get perks on top of an attending membership.',
+                extra: {{ c.SPONSOR }}
+            });
+            BADGE_TYPES.options.push({
+                title: 'Supersponsor',
+                description: 'The most generous option - get even more great perks!',
+                extra: {{ c.SUPERSPONSOR }}
+            });
         }
     $(function () {
         $('#extra_donation').insertAfter($.field('amount_extra').parents('.form-group'));
         $('#luncheon').insertAfter($.field('extra_donation').parents('.form-group'));
 
-        $.field('amount_extra').on('change', showOrHideLuncheon);
+        $('.badge-type-selector').on('click', showOrHideLuncheon);
         showOrHideLuncheon();
         $.field('luncheon_tickets').parents('form').submit(function() {
             if ($('#luncheon').is(':hidden')) {
