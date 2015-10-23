@@ -1,10 +1,31 @@
 <script type="text/javascript">
+    if (window.BADGE_TYPES) {
+            BADGE_TYPES.options.push({
+                title: 'Sponsor',
+                description: 'Donate extra and get perks on top of an attending membership.',
+                extra: {{ c.SPONSOR }}
+            });
+            BADGE_TYPES.options.push({
+                title: 'Supersponsor',
+                description: 'The most generous option - get even more great perks!',
+                extra: {{ c.SUPERSPONSOR }}
+            });
+        }
     $(function () {
         $('#extra_donation').insertAfter($.field('amount_extra').parents('.form-group'));
-        {% if c.PAGE_PATH != '/registration/form' %}
-        $.field('amount_extra').parents('.form-group').append($('#tax_exempt'));
-            {% endif %}
+        $('#luncheon').insertAfter($.field('extra_donation').parents('.form-group'));
+
+        $('.badge-type-selector').on('click', showOrHideLuncheon);
+        showOrHideLuncheon();
+        $.field('luncheon_tickets').parents('form').submit(function() {
+            if ($('#luncheon').is(':hidden')) {
+                $.field('luncheon_tickets').val('');
+            }
+        });
     });
+    var showOrHideLuncheon = function () {
+        setVisible($('#luncheon'), $.val('amount_extra') >= {{ c.SUPERSPONSOR }});
+    };
 </script>
 
 <div id="extra_donation">
@@ -13,21 +34,25 @@
         <div class="col-sm-6">
             <div class="input-group">
                 <span class="input-group-addon">$</span>
-                <input type="text" class="form-control" name="extra_donation" value="{% if attendee.extra_donation %}{{ attendee.extra_donation }}{% endif %}" placeholder="0">
+                <input type="text" class="form-control" name="extra_donation" value="{{ attendee.extra_donation|default:'' }}" placeholder="0" />
                 <span class="input-group-addon">.00</span>
             </div>
         </div>
-        {% if c.PAGE_PATH != '/registration/form' %}
-            <p class="help-block col-sm-6 col-sm-offset-2">
-                MAGFest inc is a 501(c)(3) charitable organization, and additional donations may be tax deductible.
-                Your employer may also have a charitable donation matching program. E-mail contact@magfest.org for details.
-            </p>
-        {% endif %}
     </div>
 </div>
-{% if c.PAGE_PATH != '/registration/form' %}
-    <div id="tax_exempt">
-        <div class="help-block col-sm-6 col-sm-offset-2">
-            Badge tier upgrades may be partially tax deductible. E-mail contact@magfest.org for details.
+
+<div id="luncheon" style="display:none;">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Supersponsor Luncheon</label>
+        <div class="col-sm-6">
+            {% checkbox attendee.luncheon_going %} Will you be attending our supersponsor luncheon at 11:30 AM on the Saturday of the convention?
         </div>
     </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Additional Luncheon Tickets</label>
+        <div class="col-sm-6">
+            Do you wish to purchase additional luncheon tickets (at $50 each) for a guest or two?
+            <br/><input type="text" class="form-control" name="luncheon_tickets" value="{{ attendee.luncheon_tickets|default:'' }}" placeholder="0" />
+        </div>
+    </div>
+</div>
