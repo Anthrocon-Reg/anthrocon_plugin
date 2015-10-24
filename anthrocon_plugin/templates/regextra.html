@@ -15,7 +15,7 @@
         $('#extra_donation').insertAfter($.field('amount_extra').parents('.form-group'));
         $('#luncheon').insertAfter($.field('extra_donation').parents('.form-group'));
 
-        $('.badge-type-selector').on('click', showOrHideLuncheon)
+        $('.badge-type-selector').on('click', showOrHideLuncheon);
         showOrHideLuncheon();
         $.field('luncheon_tickets').parents('form').submit(function() {
             if ($('#luncheon').is(':hidden')) {
