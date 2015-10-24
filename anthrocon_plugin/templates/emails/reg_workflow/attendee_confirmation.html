@@ -5,7 +5,7 @@
 Congratulations! Your registration was successful, and your badge number is <strong>{{ attendee.badge_num }}</strong>.
 Your membership type is:
 {% if attendee.amount_extra %}
-    {% if attendee.badge_type == ATTENDEE_BADGE %}
+    {% if attendee.badge_type == c.ATTENDEE_BADGE %}
         Attending {{ attendee.amount_extra_label }}
     {% else %}
         {{ attendee.badge_type_label }} {{ attendee.amount_extra_label }}
@@ -16,7 +16,7 @@ Your membership type is:
 
 <br/><br/>Your credit card was successfully charged for <strong>${{ attendee.amount_paid }}</strong>.
 
-<br/><br/>To confirm your registration in the future, please point your web browser to <a href="{{ URL_BASE }}/preregistration/confirm?id={{ attendee.id }}">{{ URL_BASE }}/preregistration/confirm?id={{ attendee.id }}</a>.
+<br/><br/>To confirm your registration in the future, please point your web browser to <a href="{{ c.URL_BASE }}/preregistration/confirm?id={{ attendee.id }}">{{ c.URL_BASE }}/preregistration/confirm?id={{ attendee.id }}</a>.
 
 <br/><br/>If you have any questions about the convention, please read our helpful FAQ at <a href="https://www.anthrocon.org/faq">https://www.anthrocon.org/faq</a>. It covers many of the questions attendees have!
 
@@ -24,7 +24,7 @@ Your membership type is:
 <br/>For registration questions specifically, you may contact us at registration@anthrocon.org.
 <br/>To inquire about refunds, you may contact us at refunds@anthrocon.org.
 
-{{ REGDESK_EMAIL_SIGNATURE }}
+{{ c.REGDESK_EMAIL_SIGNATURE }}
 
 </body>
 </html>
