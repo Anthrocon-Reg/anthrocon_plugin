@@ -30,6 +30,7 @@
         $.field('affiliate').parents('.form-group').remove();
         $('label[for="ec_phone"]').addClass('optional-field');
         $('label[for="cellphone"]').css('font-weight', 'bold');
+        $('label[for="full_address"]').text('Mailing Address');
     });
     var showOrHideLuncheon = function () {
         setVisible($('#luncheon'), $.val('amount_extra') >= {{ c.SUPERSPONSOR }});
