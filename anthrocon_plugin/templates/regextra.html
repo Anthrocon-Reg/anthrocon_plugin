@@ -22,10 +22,14 @@
                 $.field('luncheon_tickets').val('');
             }
         });
-        $.field('interests').parents('.form-group').hide();
+        if ($.field('interests')) {
+            $.field('interests').parents('.form-group').hide();
+        }
         $.field('found_how').parents('.form-group').hide();
         $.field('can_spam').prop('checked', false).parents('.form-group').hide();
         $.field('affiliate').parents('.form-group').remove();
+        $('label[for="ec_phone"]').addClass('optional-field');
+        $('label[for="cellphone"]').css('font-weight', 'bold');
     });
     var showOrHideLuncheon = function () {
         setVisible($('#luncheon'), $.val('amount_extra') >= {{ c.SUPERSPONSOR }});
