@@ -15,13 +15,17 @@
         $('#extra_donation').insertAfter($.field('amount_extra').parents('.form-group'));
         $('#luncheon').insertAfter($.field('extra_donation').parents('.form-group'));
 
-        $('.badge-type-selector').on('click', showOrHideLuncheon);
+        $('.badge-type-selector').on('click', showOrHideLuncheon)
         showOrHideLuncheon();
         $.field('luncheon_tickets').parents('form').submit(function() {
             if ($('#luncheon').is(':hidden')) {
                 $.field('luncheon_tickets').val('');
             }
         });
+        $.field('interests').parents('.form-group').hide();
+        $.field('found_how').parents('.form-group').hide();
+        $.field('can_spam').prop('checked', false).parents('.form-group').hide();
+        $.field('affiliate').parents('.form-group').remove();
     });
     var showOrHideLuncheon = function () {
         setVisible($('#luncheon'), $.val('amount_extra') >= {{ c.SUPERSPONSOR }});
