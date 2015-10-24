@@ -12,7 +12,13 @@
             });
         }
     $(function () {
-        $('#extra_donation').insertBefore($.field('first_name').parents('.form-group'));
+
+
+        if ($.field('first_name')) {
+            $('#extra_donation').insertBefore($.field('first_name').parents('.form-group'));
+        } else {
+            $('#extra_donation').insertBefore($('label[for="full_name"]').parents('.form-group'));
+        }
         $('#luncheon').insertAfter($.field('extra_donation').parents('.form-group'));
 
         $('.badge-type-selector').on('click', showOrHideLuncheon);
@@ -66,3 +72,17 @@
         </div>
     </div>
 </div>
+
+{% if attendee.badge_num and c.PAGE_PATH != '/registration/form' %}
+    <script type="text/javascript">
+    $(function() {
+        $('label[for="badge_num"]').parents('.form-group').insertAfter($('#luncheon'));
+    });
+    </script>
+    <div class="form-group">
+    <label for="badge_num" class="col-sm-2 control-label">Badge Number</label>
+    <div class="col-sm-6">
+        {{ attendee.badge_num }}
+    </div>
+    </div>
+{% endif %}
