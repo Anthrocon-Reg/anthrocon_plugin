@@ -26,6 +26,8 @@
         $.field('found_how').parents('.form-group').hide();
         $.field('can_spam').prop('checked', false).parents('.form-group').hide();
         $.field('affiliate').parents('.form-group').remove();
+        $('label[for="ec_phone"]').addClass('.optional-field');
+        $('label[for="cellphone"]').removeClass('.optional-field');
     });
     var showOrHideLuncheon = function () {
         setVisible($('#luncheon'), $.val('amount_extra') >= {{ c.SUPERSPONSOR }});
