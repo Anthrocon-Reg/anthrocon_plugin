@@ -12,7 +12,7 @@
             });
         }
     $(function () {
-        $('#extra_donation').insertAfter($.field('amount_extra').parents('.form-group'));
+        $('#extra_donation').insertBefore($.field('first_name').parents('.form-group'));
         $('#luncheon').insertAfter($.field('extra_donation').parents('.form-group'));
 
         $('.badge-type-selector').on('click', showOrHideLuncheon);
