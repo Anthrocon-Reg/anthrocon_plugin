@@ -26,6 +26,9 @@
             $.field('interests').parents('.form-group').hide();
         }
         $.field('found_how').parents('.form-group').hide();
+        {% if c.PAGE_PATH != '/registration/form' %}
+            $.field('staffing').parents('.form-group').hide();
+        {% endif %}
         $.field('can_spam').prop('checked', false).parents('.form-group').hide();
         $.field('affiliate').parents('.form-group').remove();
         $('label[for="ec_phone"]').addClass('optional-field');
