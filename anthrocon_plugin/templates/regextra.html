@@ -13,7 +13,7 @@
         }
     $(function () {
 
-
+        // Position new fields
         if ($.field('first_name')) {
             $('#extra_donation').insertBefore($.field('first_name').parents('.form-group'));
         } else {
@@ -28,6 +28,8 @@
                 $.field('luncheon_tickets').val('');
             }
         });
+
+        // Hide unwanted fields where appropriate
         $("label:contains('What interests you?')").parents('.form-group').hide();
         $.field('found_how').parents('.form-group').hide();
         {% if c.PAGE_PATH != '/registration/form' %}
@@ -36,8 +38,11 @@
         $.field('can_spam').prop('checked', false).parents('.form-group').hide();
         $.field('affiliate').parents('.form-group').remove();
         $('label[for="ec_phone"]').addClass('optional-field');
+
+        // Change existing fields
         $('label[for="cellphone"]').css('font-weight', 'bold');
         $('label[for="full_address"]').text('Mailing Address');
+        $.field('cellphone').parents('.form-group').insertBefore($.field('ec_phone').parents('.form-group'));
     });
     var showOrHideLuncheon = function () {
         setVisible($('#luncheon'), $.val('amount_extra') >= {{ c.SUPERSPONSOR }});
@@ -46,7 +51,7 @@
 
 <div id="extra_donation">
     <div class="form-group">
-        <label class="col-sm-2 control-label">Extra Donation</label>
+        <label class="col-sm-2 control-label optional-field">Extra Donation</label>
         <div class="col-sm-6">
             <div class="input-group">
                 <span class="input-group-addon">$</span>
@@ -65,7 +70,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2 control-label">Additional Luncheon Tickets</label>
+        <label class="col-sm-2 control-label optional-field">Additional Luncheon Tickets</label>
         <div class="col-sm-6">
             Do you wish to purchase additional luncheon tickets (at $50 each) for a guest or two?
             <br/><input type="text" class="form-control" name="luncheon_tickets" value="{{ attendee.luncheon_tickets|default:'' }}" placeholder="0" />
