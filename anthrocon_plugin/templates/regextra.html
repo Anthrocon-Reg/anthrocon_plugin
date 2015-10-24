@@ -22,9 +22,7 @@
                 $.field('luncheon_tickets').val('');
             }
         });
-        if ($.field('interests')) {
-            $.field('interests').parents('.form-group').hide();
-        }
+        $("label:contains('What interests you?')").parents('.form-group').hide();
         $.field('found_how').parents('.form-group').hide();
         {% if c.PAGE_PATH != '/registration/form' %}
             $.field('staffing').parents('.form-group').hide();
