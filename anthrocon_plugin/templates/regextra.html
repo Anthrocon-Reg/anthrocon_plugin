@@ -149,11 +149,10 @@
         // Cost for badges
         badge_cost = {{ c.BADGE_PRICE }} * $.val("badges");
         // Extra options cost
-        if ($.field('table_extras').val()) {
-            $('[name="table_extras"] option:selected').each(function() {
-                extra_cost += parseInt($(this).val());
-            });
-        }
+        $('[name="table_extras"]:checked').each(function() {
+            extra_cost += parseInt($(this).val());
+        });
+
         total_cost = table_cost + badge_cost + extra_cost;
         $("#cost").html("$"+ total_cost);
     }
@@ -176,9 +175,7 @@
     <div class="form-group">
     <label for="table_extras" class="col-sm-2 control-label">Table Extras</label>
     <div class="col-sm-6">
-        <select name="table_extras" multiple="multiple">
-            {% options c.TABLE_EXTRA_OPTS group.table_extras %}
-        </select>
+        {% checkgroup group.table_extras %}
     </div>
     </div>
 {% endif %}

@@ -30,5 +30,5 @@ def dealer_website(group):
 
 @validation.Group
 def dealer_tax_id(group):
-    if dealer.tables and not dealer.tax_id:
+    if group.tables and not group.tax_id:
         return "You must enter your Pennsylvania tax id."

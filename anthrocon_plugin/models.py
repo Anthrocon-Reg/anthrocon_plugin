@@ -45,6 +45,8 @@ class Attendee:
         else:
             return datetime.strftime(localized_now(), "%A") if self.badge_type == c.ONE_DAY_BADGE else self.badge_type_label
 
+
+@Session.model_mixin
 class Group:
     tax_id = Column(UnicodeText, nullable=True, default=None)
     table_extras = Column(MultiChoice(c.TABLE_EXTRA_OPTS))
@@ -52,6 +54,6 @@ class Group:
     @cost_property
     def table_extra_cost(self):
         total_cost = 0
-        for amt, desc in self.table_extras:
-            total_cost += amt
+        for num in self.table_extras:
+            total_cost += int(num)
         return total_cost
