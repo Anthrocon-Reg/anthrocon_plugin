@@ -48,12 +48,27 @@ class Attendee:
 
 @Session.model_mixin
 class Group:
-    tax_id = Column(UnicodeText, nullable=True, default=None)
+    tax_id = Column(UnicodeText, nullable=True, default='')
     table_extras = Column(MultiChoice(c.TABLE_EXTRA_OPTS))
 
     @cost_property
     def table_extra_cost(self):
         total_cost = 0
-        for num in self.table_extras:
-            total_cost += int(num)
+        return sum(map(int, self.table_extras.split(',')))
         return total_cost
+
+    @property
+    def new_ribbon(self):
+        return c.DEALER_ASST_RIBBON if self.is_dealer else c.NO_RIBBON
+
+    @property
+    def new_badge_cost(self):
+        return c.BADGE_PRICE if self.tables else c.get_group_price(sa.localized_now())
+
+    @cost_property
+    def badge_cost(self):
+        total = 0
+        for attendee in self.attendees:
+            if attendee.paid == c.PAID_BY_GROUP:
+                total += c.BADGE_PRICE if attendee.is_dealer else c.get_group_price(attendee.registered)
+        return total
