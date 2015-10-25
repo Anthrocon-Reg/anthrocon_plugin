@@ -1,0 +1,27 @@
+{% if group.is_dealer %}
+<script type="text/javascript">
+    $(function() {
+        $("#table_prices").hide();
+        $('label[for="tables"]').parents('.form-group').next('.form-group').hide();
+        $('label[for="website"]').addClass('optional-field');
+        $.field('address').parents('.form-group').hide();
+
+        $.field('tax_id').parents('.form-group').insertBefore($.field('special_needs').parents('.form-group'));
+        $.field('table_extras').parents('.form-group').insertAfter($.field('tables').parents('.form-group'));
+    });
+</script>
+
+<div class="form-group">
+    <label for="tax_id" class="col-sm-2 control-label">Pennsylvania Tax ID</label>
+    <div class="col-sm-6">
+        <input type="text" class="form-control" name="tax_id" value="{{ group.tax_id }}" placeholder="Your Tax ID" />
+    </div>
+</div>
+
+    <div class="form-group">
+    <label for="table_extras" class="col-sm-2 control-label">Table Extras</label>
+    <div class="col-sm-6">
+        {% checkgroup group.table_extras %}
+    </div>
+    </div>
+{% endif %}
