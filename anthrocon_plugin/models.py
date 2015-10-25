@@ -60,3 +60,15 @@ class Group:
     @property
     def new_ribbon(self):
         return c.DEALER_ASST_RIBBON if self.is_dealer else c.NO_RIBBON
+
+    @property
+    def new_badge_cost(self):
+        return c.BADGE_PRICE if self.tables else c.get_group_price(sa.localized_now())
+
+    @cost_property
+    def badge_cost(self):
+        total = 0
+        for attendee in self.attendees:
+            if attendee.paid == c.PAID_BY_GROUP:
+                total += c.BADGE_PRICE if attendee.is_dealer else c.get_group_price(attendee.registered)
+        return total
