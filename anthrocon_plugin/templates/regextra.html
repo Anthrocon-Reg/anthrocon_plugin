@@ -41,7 +41,8 @@
         $.field('amount_extra').parents('.form-group').hide();
 
         // Change existing fields
-        $('label[for="cellphone"]').css('font-weight', 'bold');
+        $('label[for="cellphone"]').css('font-weight', 'bold').text('Your Phone Number');
+        $.field('cellphone').attr('placeholder', 'Your phone number.');
         $('label[for="full_address"]').text('Mailing Address');
         $.field('cellphone').parents('.form-group').insertBefore($.field('ec_phone').parents('.form-group'));
     });
