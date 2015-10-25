@@ -23,3 +23,12 @@ def emergency_contact(attendee):
 def cellphone_required(attendee):
     if not attendee.cellphone:
         return "Please enter your phone number."
+
+@validation.Group
+def dealer_website(group):
+    pass
+
+@validation.Group
+def dealer_tax_id(group):
+    if dealer.tables and not dealer.tax_id:
+        return "You must enter your Pennsylvania tax id."

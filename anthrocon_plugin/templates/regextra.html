@@ -13,7 +13,7 @@
         }
     $(function () {
 
-
+        // Position new fields
         if ($.field('first_name')) {
             $('#extra_donation').insertBefore($.field('first_name').parents('.form-group'));
         } else {
@@ -28,16 +28,22 @@
                 $.field('luncheon_tickets').val('');
             }
         });
+
+        // Hide unwanted fields where appropriate
         $("label:contains('What interests you?')").parents('.form-group').hide();
         $.field('found_how').parents('.form-group').hide();
         {% if c.PAGE_PATH != '/registration/form' %}
             $.field('staffing').parents('.form-group').hide();
         {% endif %}
         $.field('can_spam').prop('checked', false).parents('.form-group').hide();
-        $.field('affiliate').parents('.form-group').remove();
+        if ($.field('affiliate')) { $.field('affiliate').parents('.form-group').remove(); }
         $('label[for="ec_phone"]').addClass('optional-field');
+        $.field('amount_extra').parents('.form-group').hide();
+
+        // Change existing fields
         $('label[for="cellphone"]').css('font-weight', 'bold');
         $('label[for="full_address"]').text('Mailing Address');
+        $.field('cellphone').parents('.form-group').insertBefore($.field('ec_phone').parents('.form-group'));
     });
     var showOrHideLuncheon = function () {
         setVisible($('#luncheon'), $.val('amount_extra') >= {{ c.SUPERSPONSOR }});
@@ -46,7 +52,7 @@
 
 <div id="extra_donation">
     <div class="form-group">
-        <label class="col-sm-2 control-label">Extra Donation</label>
+        <label class="col-sm-2 control-label optional-field">Extra Donation</label>
         <div class="col-sm-6">
             <div class="input-group">
                 <span class="input-group-addon">$</span>
@@ -65,7 +71,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2 control-label">Additional Luncheon Tickets</label>
+        <label class="col-sm-2 control-label optional-field">Additional Luncheon Tickets</label>
         <div class="col-sm-6">
             Do you wish to purchase additional luncheon tickets (at $50 each) for a guest or two?
             <br/><input type="text" class="form-control" name="luncheon_tickets" value="{{ attendee.luncheon_tickets|default:'' }}" placeholder="0" />
@@ -83,6 +89,96 @@
     <label for="badge_num" class="col-sm-2 control-label">Badge Number</label>
     <div class="col-sm-6">
         {{ attendee.badge_num }}
+    </div>
+    </div>
+{% endif %}
+
+{% if attendee.is_dealer %}
+<script type="text/javascript">
+    $(function() {
+        $("#table_prices").hide();
+        $('label[for="tables"]').parents('.form-group').next('.form-group').hide();
+        $.field('website').parents('.form-group').next('.form-group').hide();
+        $('label[for="website"]').addClass('optional-field');
+        $.field('address').parents('.form-group').hide();
+
+        $.field('tax_id').parents('.form-group').insertBefore($.field('special_needs').parents('.form-group'));
+        $.field('dealer_cost').parents('.form-group').insertBefore($.field('name').parents('.form-group'));
+        $.field('table_extras').parents('.form-group').insertAfter($.field('tables').parents('.form-group'));
+
+        $.field('tables').on('change', updateBadgeLimits);
+        $.field('tables').on('change', setDealerCost);
+        $.field('badges').on('change', setDealerCost);
+        $.field('table_extras').on('change', setDealerCost);
+        setDealerCost();
+        updateBadgeLimits();
+    });
+
+    var updateBadgeLimits = function () {
+        var current_tables = $.val('tables');
+
+        var current_options = $("[name='badges'] option").length;
+        if ($.val("tables") <= 1) {
+            var badge_num = 2;
+        } else if ($.val("tables") <= 2) {
+            var badge_num = 3;
+        } else if ($.val('tables') > 4) {
+            var badge_number = 6;
+        } else {
+            var badge_num = parseInt($.val("tables")) + 1;
+        }
+        if (current_options > badge_num) {
+            for (i = badge_num + 1; i <= current_options; i++) {
+                $("[name='badges'] option[value='" + i + "']").remove()
+            }
+        } else if (current_options < badge_num) {
+            for (i = current_options + 1; i <= badge_num; i++) {
+                $("[name='badges']").append('<option value="'+ i +'">'+ i +'</option>')
+            }
+        }
+    };
+
+    // This affects the display only.
+    function setDealerCost() {
+        $("#cost").empty();
+        var table_cost = 0;
+        var badge_cost = 0;
+        var extra_cost = 0;
+        // Cost for tables
+        var table_cost = parseInt($('[name="tables"] option:selected').text().split("$")[1]);
+        // Cost for badges
+        badge_cost = {{ c.BADGE_PRICE }} * $.val("badges");
+        // Extra options cost
+        if ($.field('table_extras').val()) {
+            $('[name="table_extras"] option:selected').each(function() {
+                extra_cost += parseInt($(this).val());
+            });
+        }
+        total_cost = table_cost + badge_cost + extra_cost;
+        $("#cost").html("$"+ total_cost);
+    }
+</script>
+
+<div class="form-group">
+    <label for="tax_id" class="col-sm-2 control-label">Pennsylvania Tax ID</label>
+    <div class="col-sm-6">
+        <input type="text" class="form-control" name="tax_id" value="{{ group.tax_id }}" placeholder="Your Tax ID" />
+    </div>
+</div>
+
+    <div class="form-group">
+    <label for="dealer_cost" class="col-sm-2 control-label">Total Cost</label>
+    <div class="col-sm-6" name="dealer_cost">
+        <span id="cost"></span>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <label for="table_extras" class="col-sm-2 control-label">Table Extras</label>
+    <div class="col-sm-6">
+        <select name="table_extras" multiple="multiple">
+            {% options c.TABLE_EXTRA_OPTS group.table_extras %}
+        </select>
     </div>
     </div>
 {% endif %}
