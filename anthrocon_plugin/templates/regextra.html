@@ -113,6 +113,10 @@
         $.field('tax_id').parents('.form-group').insertBefore($.field('special_needs').parents('.form-group'));
         $.field('dealer_cost').parents('.form-group').insertBefore($.field('name').parents('.form-group'));
         $.field('table_extras').parents('.form-group').insertAfter($.field('tables').parents('.form-group'));
+        $('#badge-types').insertAfter($.field('dealer_cost').parents('.form-group'));
+        $('.badge-type-selector').each(function () {
+            $(this).on('click', setDealerCost);
+        });
 
         $.field('tables').on('change', updateBadgeLimits).on('change', setDealerCost).on('change', enableOrDisableExtras);
         $.field('badges').on('change', setDealerCost);
@@ -127,9 +131,14 @@
                 $('[name="table_extras"][value="0"]').prop('checked', false);
             }
         });
+        $.field('badge_type').parents('form:first').submit(function() {
+            $('input[name="badge_type"]').val('{{ c.PSEUDO_DEALER_BADGE }}');
+        });
         setDealerCost();
         updateBadgeLimits();
         enableOrDisableExtras();
+
+        $('input[name="badge_type"]').val('{{ c.PSEUDO_DEALER_BADGE }}');
     });
 
     var updateBadgeLimits = function () {
@@ -159,19 +168,18 @@
     // This affects the display only.
     var setDealerCost = function () {
         $("#cost").empty();
-        var table_cost = 0;
-        var badge_cost = 0;
         var extra_cost = 0;
         // Cost for tables
         var table_cost = parseInt($('[name="tables"] option:selected').text().split("$")[1]);
         // Cost for badges
-        badge_cost = {{ c.BADGE_PRICE }} * $.val("badges");
+        var badge_cost = {{ c.BADGE_PRICE }} * $.val("badges");
         // Extra options cost
         $('[name="table_extras"]:checked').each(function() {
             extra_cost += parseInt($(this).val());
         });
+        var upgrade_cost = $.val('amount_extra');
 
-        total_cost = table_cost + badge_cost + extra_cost;
+        total_cost = table_cost + badge_cost + extra_cost + upgrade_cost;
         $("#cost").html("$"+ total_cost);
     };
 
@@ -195,12 +203,16 @@
     };
 </script>
 
-<div class="form-group">
-    <label for="tax_id" class="col-sm-2 control-label">Pennsylvania Tax ID</label>
-    <div class="col-sm-6">
-        <input type="text" class="form-control" name="tax_id" value="{{ group.tax_id }}" placeholder="Your Tax ID" />
+    <div class="form-group" id="badge-types">
+        <label class="col-sm-2 control-label">Badge Level</label>
     </div>
-</div>
+
+    <div class="form-group">
+        <label for="tax_id" class="col-sm-2 control-label">Pennsylvania Tax ID</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" name="tax_id" value="{{ group.tax_id }}" placeholder="Your Tax ID" />
+        </div>
+    </div>
 
     <div class="form-group">
     <label for="dealer_cost" class="col-sm-2 control-label">Total Cost</label>
