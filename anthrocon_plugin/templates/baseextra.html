@@ -1,0 +1,19 @@
+<script type="text/javascript">
+    $(function() {
+        if ($('#checkin_count')) {
+            $('#checkin_count').parents('.panel').remove();
+        }
+    });
+</script>
+
+{% if c.AT_THE_CON and c.PAGE_PATH == '/preregistration/index' %}
+    <script type="text/javascript">
+    $(function() {
+        $('.stripe-button-el').parents(':eq(2)').prepend($('#stripe-warning'));
+    });
+    </script>
+
+
+    <div class="bg-danger" id="stripe-warning" style="margin: 20px; padding: 10px;"><strong>NOTE: A government-issued ID is required to pick up your badge.
+                <br/>If you pay now and cannot pick up your badge, there are no refunds!</strong></div>
+{% endif %}
