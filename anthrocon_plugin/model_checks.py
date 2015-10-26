@@ -20,6 +20,11 @@ def emergency_contact(attendee):
     pass
 
 @validation.Attendee
+def accept_coc(attendee):
+    if not attendee.coc_agree:
+        return "You must agree to the standards of conduct."
+
+@validation.Attendee
 def cellphone_required(attendee):
     if not attendee.cellphone:
         return "Please enter your phone number."

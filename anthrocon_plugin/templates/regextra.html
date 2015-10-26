@@ -80,6 +80,13 @@
     </div>
 </div>
 
+<div class="form-group">
+    <label class="col-sm-2 control-label"></label>
+    <div class="col-sm-6">
+        {% checkbox attendee.coc_agree %} <strong>I agree to abide by Anthrocon's <a href="http://www.anthrocon.org/rules-conduct" target="_blank">Standards of Conduct</a></strong>
+    </div>
+</div>
+
 {% if attendee.badge_num and c.PAGE_PATH != '/registration/form' %}
     <script type="text/javascript">
     $(function() {
