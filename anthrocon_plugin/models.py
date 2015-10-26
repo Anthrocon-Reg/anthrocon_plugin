@@ -5,6 +5,7 @@ class Attendee:
     extra_donation = Column(Integer, default=0)
     luncheon_tickets = Column(Integer, default=0)
     luncheon_going = Column(Boolean, default=False)
+    coc_agree = Column(Boolean, default=False)
 
     @cost_property
     def donation_cost(self):
