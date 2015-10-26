@@ -54,9 +54,7 @@ class Group:
 
     @cost_property
     def table_extra_cost(self):
-        total_cost = 0
-        return sum(map(int, self.table_extras.split(',')))
-        return total_cost
+        return sum(map(int, self.table_extras.split(','))) if self.table_extras else 0
 
     @property
     def new_ribbon(self):
