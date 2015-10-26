@@ -114,12 +114,22 @@
         $.field('dealer_cost').parents('.form-group').insertBefore($.field('name').parents('.form-group'));
         $.field('table_extras').parents('.form-group').insertAfter($.field('tables').parents('.form-group'));
 
-        $.field('tables').on('change', updateBadgeLimits);
-        $.field('tables').on('change', setDealerCost);
+        $.field('tables').on('change', updateBadgeLimits).on('change', setDealerCost).on('change', enableOrDisableExtras);
         $.field('badges').on('change', setDealerCost);
         $.field('table_extras').on('change', setDealerCost);
+        $('[name="table_extras"][value="0"]').click(function() {
+            if($(this).is(':checked')) {
+                $('[name="table_extras"][value="20"]').prop('checked', false);
+            }
+        });
+        $('[name="table_extras"][value="20"]').click(function() {
+            if($(this).is(':checked')) {
+                $('[name="table_extras"][value="0"]').prop('checked', false);
+            }
+        });
         setDealerCost();
         updateBadgeLimits();
+        enableOrDisableExtras();
     });
 
     var updateBadgeLimits = function () {
@@ -147,7 +157,7 @@
     };
 
     // This affects the display only.
-    function setDealerCost() {
+    var setDealerCost = function () {
         $("#cost").empty();
         var table_cost = 0;
         var badge_cost = 0;
@@ -163,7 +173,26 @@
 
         total_cost = table_cost + badge_cost + extra_cost;
         $("#cost").html("$"+ total_cost);
-    }
+    };
+
+    var enableOrDisableExtras = function () {
+        if ($.val('tables') == 4.5) {
+            $('[name="table_extras"]').each(function() {
+                $(this).prop('checked', false).prop('disabled', true);
+                if ($(this).val() == 65) {
+                    $(this).prop('title', 'Already included with your selected table.');
+                } else {
+                    $(this).prop('title', 'Not a valid option with your selected table.');
+                }
+            });
+        } else if ($.val('tables') < 3 && $.val('tables') > 1) {
+            $('[name="table_extras"][value="20"]').prop('checked', false).prop('disabled', true).prop('title', 'Not a valid option with your selected table.');
+        } else {
+            $('[name="table_extras"]').each(function() {
+                $(this).prop('disabled', false);
+            });
+        }
+    };
 </script>
 
 <div class="form-group">
