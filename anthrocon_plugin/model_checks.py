@@ -29,11 +29,11 @@ def cellphone_required(attendee):
     if not attendee.cellphone:
         return "Please enter your phone number."
 
-@validation.Group
+@prereg_validation.Group
 def dealer_website(group):
     pass
 
-@validation.Group
+@prereg_validation.Group
 def dealer_tax_id(group):
     if group.tables and not group.tax_id:
         return "You must enter your Pennsylvania tax id."
