@@ -34,11 +34,11 @@
         $.field('found_how').parents('.form-group').hide();
         {% if c.PAGE_PATH != '/registration/form' %}
             $.field('staffing').parents('.form-group').hide();
+            $.field('amount_extra').parents('.form-group').hide();
         {% endif %}
         $.field('can_spam').prop('checked', false).parents('.form-group').hide();
         if ($.field('affiliate')) { $.field('affiliate').parents('.form-group').remove(); }
         $('label[for="ec_phone"]').addClass('optional-field');
-        $.field('amount_extra').parents('.form-group').hide();
 
         // Change existing fields
         $('label[for="cellphone"]').css('font-weight', 'bold').text('Your Phone Number');
