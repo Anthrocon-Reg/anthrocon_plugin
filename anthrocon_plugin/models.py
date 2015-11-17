@@ -56,6 +56,10 @@ class Group:
     def table_extra_cost(self):
         return sum(map(int, self.table_extras.split(','))) if self.table_extras else 0
 
+    @cost_property
+    def table_cost(self):
+        return c.TABLE_PRICES[float(self.tables)]
+
     @property
     def new_ribbon(self):
         return c.DEALER_ASST_RIBBON if self.is_dealer else c.NO_RIBBON

@@ -101,7 +101,8 @@
     </div>
 {% endif %}
 
-{% if attendee.is_dealer and c.PAGE_PATH != '/registration/form' %}
+{% if attendee.is_dealer %}
+    {% if c.PAGE_PATH == '/preregistration/dealer_registration' or c.PAGE_PATH == '/preregistration/form' %}
 <script type="text/javascript">
     $(function() {
         $("#table_prices").hide();
@@ -227,4 +228,5 @@
         {% checkgroup group.table_extras %}
     </div>
     </div>
+{% endif %}
 {% endif %}
