@@ -19,12 +19,12 @@ def only_tickets_for_supersponsors(attendee):
 def emergency_contact(attendee):
     pass
 
-@validation.Attendee
+@prereg_validation.Attendee
 def accept_coc(attendee):
     if not attendee.coc_agree:
         return "You must agree to the standards of conduct."
 
-@validation.Attendee
+@prereg_validation.Attendee
 def cellphone_required(attendee):
     if not attendee.cellphone:
         return "Please enter your phone number."
@@ -37,3 +37,7 @@ def dealer_website(group):
 def dealer_tax_id(group):
     if group.tables and not group.tax_id:
         return "You must enter your Pennsylvania tax id."
+
+@validation.Attendee
+def zip_code(attendee):
+    pass

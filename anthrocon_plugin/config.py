@@ -13,7 +13,7 @@ c.TABLE_OPTS = [
     (4.5, 'Island Table')
 ]
 
-c.ADMIN_TABLE_OPTS = [(0.0, 'No Table')] + c.TABLE_OPTS + [(float(i), str(i)) for i in range(5, 11)]
+c.ADMIN_TABLE_OPTS = [(0.0, 'No Table')] + c.TABLE_OPTS
 
 c.TABLE_PRICES = {0: 0, 0.5: 45, 1: 110, 1.5: 210, 2: 350, 3: 600, 4: 900, 4.5: 1200}
 
