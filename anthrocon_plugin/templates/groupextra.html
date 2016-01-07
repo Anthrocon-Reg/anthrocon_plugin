@@ -4,7 +4,6 @@
         $("#table_prices").hide();
         $('label[for="tables"]').parents('.form-group').next('.form-group').hide();
         $('label[for="website"]').addClass('optional-field');
-        $.field('address').parents('.form-group').hide();
 
         $.field('tax_id').parents('.form-group').insertBefore($.field('special_needs').parents('.form-group'));
         $.field('table_extras').parents('.form-group').insertAfter($.field('tables').parents('.form-group'));
