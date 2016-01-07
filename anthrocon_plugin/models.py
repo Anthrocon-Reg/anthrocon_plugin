@@ -75,3 +75,11 @@ class Group:
             if attendee.paid == c.PAID_BY_GROUP:
                 total += c.get_attendee_price(attendee.registered) if attendee.is_dealer else c.get_group_price(attendee.registered)
         return total
+
+    @property
+    def addons(self):
+        addons = []
+        for amt, desc in c.TABLE_EXTRA_OPTS:
+            if str(amt) in self.table_extras.split(','):
+                addons.append('{} (${})'.format(desc.split(' ',2)[-1], amt) if amt else desc)
+        return addons
