@@ -73,5 +73,5 @@ class Group:
         total = 0
         for attendee in self.attendees:
             if attendee.paid == c.PAID_BY_GROUP:
-                total += c.BADGE_PRICE if attendee.is_dealer else c.get_group_price(attendee.registered)
+                total += c.get_attendee_price(attendee.registered) if attendee.is_dealer else c.get_group_price(attendee.registered)
         return total
