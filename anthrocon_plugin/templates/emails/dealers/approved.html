@@ -18,6 +18,9 @@ This registration includes:
 <ul>
     <li> {{ group.tables }} table{{ group.tables|pluralize }} (${{ group.table_cost }}) </li>
     <li> {{ group.badges }} badge{{ group.badges|pluralize }} (${{ group.badge_cost }}) </li>
+    {% for addon in group.addons %}
+        <li> {{ addon }} </li>
+    {% endfor %}
 </ul>
 
 <br/> The complete Dealer Packet is available at
