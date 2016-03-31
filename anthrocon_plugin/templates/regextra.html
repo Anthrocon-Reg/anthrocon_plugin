@@ -46,6 +46,7 @@
         $('label[for="full_address"]').text('');
         $('label[for="address1"]').text('Mailing Address');
         $.field('cellphone').parents('.form-group').insertBefore($.field('ec_phone').parents('.form-group'));
+        $(".price_notice:contains('Price goes up to $255 at-door.')").html( $(".price_notice:contains('Price goes up to $255 at-door.')").html().replace("Price goes up to $255 at-door.",'') );
     });
     var showOrHideLuncheon = function () {
         setVisible($('#luncheon'), $.val('amount_extra') >= {{ c.SUPERSPONSOR }});
