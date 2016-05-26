@@ -31,14 +31,17 @@
         }
     $(function () {
 
-        // Position new fields
+        // Extra donation field
         if ($.field('first_name')) {
             $('#extra_donation').insertBefore($.field('first_name').parents('.form-group'));
         } else {
             $('#extra_donation').insertBefore($('label[for="full_name"]').parents('.form-group'));
         }
+
+        // Luncheon fields
         $('#luncheon').insertAfter($.field('extra_donation').parents('.form-group'));
 
+        {% if not c.AT_THE_CON or not attendee.is_new %}
         $('.badge-type-selector').on('click', showOrHideLuncheon);
         showOrHideLuncheon();
         $.field('luncheon_tickets').parents('form').submit(function() {
@@ -46,6 +49,11 @@
                 $.field('luncheon_tickets').val('');
             }
         });
+        {% endif %}
+        {% if c.AT_THE_CON and c.PAGE_PATH != '/registration/form' %}
+            $.field('luncheon_tickets').prop('disabled', true);
+            $.field('luncheon_going').prop('disabled', true);
+        {% endif %}
 
         // Hide unwanted fields where appropriate
         $("label:contains('What interests you?')").parents('.form-group').hide();
@@ -56,14 +64,21 @@
         {% endif %}
         $.field('can_spam').prop('checked', false).parents('.form-group').hide();
         if ($.field('affiliate')) { $.field('affiliate').parents('.form-group').remove(); }
+
+        // Change phone number fields
         $('label[for="ec_phone"]').addClass('optional-field');
 
-        // Change existing fields
         $('label[for="cellphone"]').css('font-weight', 'bold').text('Your Phone Number');
         $.field('cellphone').attr('placeholder', 'Your phone number.');
+        $.field('cellphone').parents('.form-group').insertBefore($.field('ec_phone').parents('.form-group'));
+
+
+        // Change address fields
         $('label[for="full_address"]').text('');
         $('label[for="address1"]').text('Mailing Address');
-        $.field('cellphone').parents('.form-group').insertBefore($.field('ec_phone').parents('.form-group'));
+
+
+        // Change badge option text
         if($(".price_notice:contains('Price goes up to $255 at-door.')").length) {
             $(".price_notice:contains('Price goes up to $255 at-door.')").html( $(".price_notice:contains('Price goes up to $255 at-door.')").html().replace("Price goes up to $255 at-door.",'') );
         }
@@ -71,6 +86,7 @@
             $(".price:contains(': $255')").html( $(".price:contains(': $255')").html().replace("255",'250') );
         {% endif %}
     });
+
     var showOrHideLuncheon = function () {
         setVisible($('#luncheon'), $.val('amount_extra') >= {{ c.SUPERSPONSOR }});
     };
