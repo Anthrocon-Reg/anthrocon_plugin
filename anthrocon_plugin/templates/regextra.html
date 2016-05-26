@@ -1,4 +1,17 @@
 {% if c.PAGE_PATH == '/registration/form' %}
+    <script type="text/javascript">
+        $(function () {
+                $('#free_kickin').insertAfter($.field('amount_extra').parents('.form-group'));
+            });
+    </script>
+
+    <div id="free_kickin" class="form-group">
+        <label for="free_kickin" class="col-sm-2 control-label">Free Badge Upgrade</label>
+        <div class="col-sm-6">
+            {% checkbox attendee.free_kickin %} This attendee's badge upgrade should be free.
+        </div>
+    </div>
+
     {% if attendee.times_printed < 1 or attendee.print_pending %}
         <script type="text/javascript">
             $(function () {

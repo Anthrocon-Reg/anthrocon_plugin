@@ -6,6 +6,7 @@ class Attendee:
     luncheon_tickets = Column(Integer, default=0)
     luncheon_going = Column(Boolean, default=False)
     coc_agree = Column(Boolean, default=False)
+    free_kickin = Column(Boolean, default=False)
 
     @cost_property
     def donation_cost(self):
@@ -28,6 +29,10 @@ class Attendee:
     @cost_property
     def supersponsor_discount(self):
         return -5 if c.AFTER_PREREG_TAKEDOWN and self.amount_extra >= c.SUPERSPONSOR else 0
+
+    @property
+    def total_cost(self):
+        return self.default_cost if self.free_kickin else self.default_cost + self.amount_extra
 
     @property
     def addons(self):
