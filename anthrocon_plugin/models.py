@@ -46,6 +46,13 @@ class Attendee:
         else:
             return datetime.strftime(localized_now(), "%A") if self.badge_type == c.ONE_DAY_BADGE else self.badge_type_label
 
+    @property
+    def extra_print_label(self):
+        if attendee.amount_extra in [50] or attendee.donation_tier == c.SPONSOR:
+            return "<br />Sponsor"
+        elif attendee.amount_extra in [195, 190] or attendee.donation_tier == c.SUPERSPONSOR:
+            return "<br />Supersponsor"
+
 
 @Session.model_mixin
 class Group:

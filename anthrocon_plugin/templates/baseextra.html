@@ -1,3 +1,28 @@
+{% if c.HAS_PEOPLE_ACCESS %}
+<script type="text/javascript">
+    MENU.push({
+        'Badge Printing': [
+            {'List Printed Badges': '../badge_printing/'},
+            {'List Pending Badges': '../badge_printing/index?pending=True'},
+            {'Print Adult Badges':  '../badge_printing/print_badges'},
+            {'Print Minor Badges':  '../badge_printing/print_badges?minor=True'}
+        ]
+    });
+</script>
+{% endif %}
+
+{% if c.PAGE_PATH == '/registration/form' %}
+    <script type="text/javascript">
+        $(function () {
+            $('#reprint_fee').insertAfter($.field('badge_status').parents('.form-group'));
+        });
+    </script>
+
+    <div id="reprint_fee" class="form-group">
+    {% include "kiosk_printing/reprint_fee.html" %}
+    </div>
+{% endif %}
+
 <script type="text/javascript">
     $(function() {
         if ($('#checkin_count')) {

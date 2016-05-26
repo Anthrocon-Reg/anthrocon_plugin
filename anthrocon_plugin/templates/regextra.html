@@ -1,3 +1,21 @@
+{% if c.PAGE_PATH == '/registration/form' %}
+    {% if attendee.times_printed < 1 or attendee.print_pending %}
+        <script type="text/javascript">
+            $(function () {
+                $('#print_pending').insertAfter($.field('badge_status').parents('.form-group'));
+            });
+        </script>
+
+        <div id="print_pending" class="form-group">
+            <label for="print_pending" class="col-sm-2 control-label">Ready to Print</label>
+            <div class="col-sm-6">
+                {% checkbox attendee.print_pending %}
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+
 <script type="text/javascript">
     if (window.BADGE_TYPES) {
             BADGE_TYPES.options.push({
@@ -46,7 +64,9 @@
         $('label[for="full_address"]').text('');
         $('label[for="address1"]').text('Mailing Address');
         $.field('cellphone').parents('.form-group').insertBefore($.field('ec_phone').parents('.form-group'));
-        $(".price_notice:contains('Price goes up to $255 at-door.')").html( $(".price_notice:contains('Price goes up to $255 at-door.')").html().replace("Price goes up to $255 at-door.",'') );
+        if($(".price_notice:contains('Price goes up to $255 at-door.')").length) {
+            $(".price_notice:contains('Price goes up to $255 at-door.')").html( $(".price_notice:contains('Price goes up to $255 at-door.')").html().replace("Price goes up to $255 at-door.",'') );
+        }
     });
     var showOrHideLuncheon = function () {
         setVisible($('#luncheon'), $.val('amount_extra') >= {{ c.SUPERSPONSOR }});
