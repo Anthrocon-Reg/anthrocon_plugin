@@ -67,6 +67,9 @@
         if($(".price_notice:contains('Price goes up to $255 at-door.')").length) {
             $(".price_notice:contains('Price goes up to $255 at-door.')").html( $(".price_notice:contains('Price goes up to $255 at-door.')").html().replace("Price goes up to $255 at-door.",'') );
         }
+        {% if c.AFTER_PREREG_TAKEDOWN %}
+            $(".price:contains(': $255')").html( $(".price:contains(': $255')").html().replace("255",'250') );
+        {% endif %}
     });
     var showOrHideLuncheon = function () {
         setVisible($('#luncheon'), $.val('amount_extra') >= {{ c.SUPERSPONSOR }});

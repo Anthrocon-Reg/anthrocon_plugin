@@ -25,6 +25,10 @@ class Attendee:
         if not self.luncheon_tickets:
             self.luncheon_tickets = 0
 
+    @cost_property
+    def supersponsor_discount(self):
+        return -5 if c.AFTER_PREREG_TAKEDOWN and self.amount_extra >= c.SUPERSPONSOR else 0
+
     @property
     def addons(self):
         addons = []
