@@ -30,13 +30,13 @@ def cellphone_required(attendee):
         return "Please enter your phone number."
 
 @prereg_validation.Attendee
-def no_luncheon_at_con(attendee):
-    if c.AT_THE_CON and attendee.luncheon_going and not attendee.orig_value_of('luncheon_going'):
+def no_luncheon_after_prereg_closes(attendee):
+    if c.AFTER_PREREG_TAKEDOWN and attendee.luncheon_going and not attendee.orig_value_of('luncheon_going'):
         return "Sorry, it is too late to get into the Supersponsor luncheon!"
 
 @prereg_validation.Attendee
-def no_more_luncheon_tickets_at_con(attendee):
-    if c.AT_THE_CON and attendee.luncheon_tickets > attendee.orig_value_of('luncheon_tickets'):
+def no_more_luncheon_tickets_after_prereg_closes(attendee):
+    if c.AFTER_PREREG_TAKEDOWN and attendee.luncheon_tickets > attendee.orig_value_of('luncheon_tickets'):
         return "Sorry, you cannot buy any more luncheon tickets!"
 
 @prereg_validation.Group
