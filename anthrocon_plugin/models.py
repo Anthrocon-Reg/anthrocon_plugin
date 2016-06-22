@@ -45,21 +45,33 @@ class Attendee:
 
     @property
     def ribbon_and_or_badge(self):
-        if self.ribbon in [c.DEALER_RIBBON, c.DEALER_ASST_RIBBON] and self.badge_type != c.ATTENDEE_BADGE:
+        # "Board of Directors" doesn't fit on the badges
+        badge_label = "Board" if self.badge_type == c.BOD_BADGE else self.badge_type_label
+
+        # These are not literal badge types so we manually override the Attending badge label
+        if self.badge_type == c.ATTENDEE_BADGE:
+            if self.ribbon in [c.DEALER_RIBBON, c.DEALER_ASST_RIBBON]:
+                return self.ribbon_label
+            elif self.amount_extra == c.SPONSOR:
+                return "Sponsor"
+            elif self.amount_extra == c.SUPERSPONSOR:
+                return "Supersponsor"
+
+        if self.ribbon in [c.DEALER_RIBBON, c.DEALER_ASST_RIBBON]:
             if self.badge_type == c.ONE_DAY_BADGE:
                 return datetime.strftime(localized_now(), "%A") + " / " + self.ribbon_label
             else:
-                return self.badge_type_label + " / " + self.ribbon_label
-        elif self.ribbon in [c.DEALER_RIBBON, c.DEALER_ASST_RIBBON]:
-             return self.ribbon_label
+                return badge_label + " / " + self.ribbon_label
         else:
-            return datetime.strftime(localized_now(), "%A") if self.badge_type == c.ONE_DAY_BADGE else self.badge_type_label
+            return datetime.strftime(localized_now(), "%A") if self.badge_type == c.ONE_DAY_BADGE else badge_label
 
     @property
     def extra_print_label(self):
-        if attendee.amount_extra in [50] or attendee.donation_tier == c.SPONSOR:
+        if self.ribbon_and_or_badge in ["Sponsor", "Supersponsor"]:
+            return ''
+        elif self.amount_extra == c.SPONSOR:
             return "<br />Sponsor"
-        elif attendee.amount_extra in [195, 190] or attendee.donation_tier == c.SUPERSPONSOR:
+        elif self.amount_extra == c.SUPERSPONSOR:
             return "<br />Supersponsor"
 
 
@@ -99,3 +111,21 @@ class Group:
             if str(amt) in self.table_extras.split(','):
                 addons.append('{} (${})'.format(desc.split(' ',2)[-1], amt) if amt else desc)
         return addons
+
+@Session.model_mixin
+class SessionMixin:
+    def filter_badges_for_printing(self, badge_list, **params):
+        """
+        Allows batch printing by grouping badges via the passed-in parameters.
+
+        :return:
+        """
+
+        if 'badge_type' in params:
+            return badge_list.filter(Attendee.badge_type == params['badge_type'])
+        elif 'dealer_only' in params:
+            return badge_list.filter(Attendee.ribbon.in_([c.DEALER_RIBBON, c.DEALER_ASST_RIBBON]))
+        elif 'badge_upgrade' in params:
+            return badge_list.filter(Attendee.amount_extra == params['badge_upgrade'])
+        else:
+            return badge_list
